@@ -3,16 +3,39 @@
 
 <head>
 	<title>WebGi starter</title>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="initial-scale=0.8">
+	<style>
+		/* PRELOADER */
+		.preloader{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			z-index: 1000;
+			background-color: #dadada;
+		}
+	</style>
 </head>
 
 <body>
+	<canvas class="preloader" id='canvas'></canvas>
+	<div class="topnav">
+		<div class="topnav-centered"><img src="assets/sources/logo.svg" alt="" class="logo"></div>
+	</div>
+	
 	<div id="webgi-canvas-container">
 		<canvas id="webgi-canvas"></canvas>
 	</div>
 
 	<script src="src/index.ts" type="module"></script>
+	<script>
+		window.onload = function(){
+			//hide the preloader
+			document.querySelector(".preloader").style.display = "none";
+		};
+	</script>
 </body>
 
 </html>

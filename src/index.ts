@@ -33,6 +33,12 @@ async function setupViewer(){
         canvas: document.getElementById('webgi-canvas') as HTMLCanvasElement,
     })
 
+    // Add some plugins
+    const manager = await viewer.addPlugin(AssetManagerPlugin)
+
+    // Add a popup(in HTML) with download progress when any asset is downloading.
+    // await viewer.addPlugin(AssetManagerBasicPopupPlugin)
+
     // Add plugins individually.
     // await viewer.addPlugin(GBufferPlugin)
     // await viewer.addPlugin(new ProgressivePlugin(32))
@@ -50,27 +56,22 @@ async function setupViewer(){
     // and many more...
 
     // or use this to add all main ones at once.
-    await addBasePlugins(viewer) // check the source: https://codepen.io/repalash/pen/JjLxGmy for the list of plugins added.
+    await addBasePlugins(viewer)
 
-    // Add a popup(in HTML) with download progress when any asset is downloading.
-    await viewer.addPlugin(AssetManagerBasicPopupPlugin)
-
-    // Required for downloading files from the UI
+    // Required for downloading files from the UI 
     await viewer.addPlugin(FileTransferPlugin)
 
     // Add more plugins not available in base, like CanvasSnipperPlugin which has helpers to download an image of the canvas.
     await viewer.addPlugin(CanvasSnipperPlugin)
 
+    // This must be called once after all plugins are added.
+    viewer.renderer.refreshPipeline()
+
     // Import and add a GLB file.
-    await viewer.load("./assets/classic-watch.glb")
+    await viewer.load("./assets/Princess Cut Diamond Ring.glb")
 
     // Load an environment map if not set in the glb file
-    // await viewer.setEnvironmentMap("./assets/environment.hdr");
-
-    // Add some UI for tweak and testing.
-    const uiPlugin = await viewer.addPlugin(TweakpaneUiPlugin)
-    // Add plugins to the UI to see their settings.
-    uiPlugin.setupPlugins<IViewerPlugin>(TonemapPlugin, CanvasSnipperPlugin)
+    // await viewer.setEnvironmentMap((await manager.importer!.importSinglePath<ITexture>("./assets/environment.hdr"))!)
 
 }
 
